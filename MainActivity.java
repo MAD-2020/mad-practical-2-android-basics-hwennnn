@@ -12,25 +12,40 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     int count = 0;
+    private static final String TAG = "Whack-A-Mole";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Log.v(TAG, "Finished Pre-Initialisation!");
+
     }
 
     public void onClickBtn(View v)
     {
-
+        switch(v.getId()) {
+            case R.id.button_1:
+                Log.v(TAG, "Button Left Clicked!");
+                break;
+            case R.id.button_2:
+                Log.v(TAG, "Button Middle Clicked!");
+                break;
+            default:
+                Log.v(TAG, "Button Right Clicked!");
+        }
 
         Button b = (Button)v;
         String buttonText = b.getText().toString();
         if (buttonText == "*"){
             count++;
+            Log.v(TAG, "Hit, score added!");
         }else{
-            if (count > 0) {
-                count--;
-            }
+            count--;
+            Log.v(TAG, "Missed, score deducted!");
         }
+
         setNewMole();
         displayMarks();
     }
@@ -48,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         setNewMole();
         displayMarks();
 
-
+        Log.v(TAG, "Starting GUI!");
     }
 
     public void setNewMole()
