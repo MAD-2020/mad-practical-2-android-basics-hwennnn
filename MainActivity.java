@@ -11,16 +11,52 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    int count = 0;
+    private int count = 0;
     private static final String TAG = "Whack-A-Mole";
+    private Button p1_button;
+    private Button p2_button;
+    private Button p3_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        p1_button = findViewById(R.id.button_1);
+        p2_button = findViewById(R.id.button_2);
+        p3_button = findViewById(R.id.button_3);
         Log.v(TAG, "Finished Pre-Initialisation!");
 
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        setNewMole();
+        displayMarks();
+
+        Log.v(TAG, "Starting GUI!");
+    }
+
+    public void setNewMole()
+    {
+        Random ran = new Random();
+        Button[] all = {p1_button,p2_button,p3_button};
+        Button id = all[ran.nextInt(all.length)];
+
+        for (int i = 0; i < all.length; i++) {
+            if (all[i] == id) {
+                id.setText("O");
+            } else {
+                all[i].setText("*");
+            }
+        }
+    }
+
+    public void displayMarks()
+    {
+        String c = String.valueOf(count);
+        TextView msg = findViewById(R.id.message);
+        msg.setText(c);
     }
 
     public void onClickBtn(View v)
@@ -50,39 +86,4 @@ public class MainActivity extends AppCompatActivity {
         displayMarks();
     }
 
-    public void displayMarks()
-    {
-        String c = String.valueOf(count);
-        TextView msg = (TextView)findViewById(R.id.message);
-        msg.setText(c);
-    }
-
-    @Override
-    protected void onStart(){
-        super.onStart();
-        setNewMole();
-        displayMarks();
-
-        Log.v(TAG, "Starting GUI!");
-    }
-
-    public void setNewMole()
-    {
-        Random ran = new Random();
-        Button p1_button = (Button)findViewById(R.id.button_1);
-        Button p2_button = (Button)findViewById(R.id.button_2);
-        Button p3_button = (Button)findViewById(R.id.button_3);
-        Button[] all = {p1_button,p2_button,p3_button};
-        Button id = all[ran.nextInt(all.length)];
-
-        for (int i = 0; i < all.length; i++) {
-            if (all[i] == id){
-                id.setText("O");
-            }else{
-                all[i].setText("*");
-            }
-        }
-
-
-    }
 }
