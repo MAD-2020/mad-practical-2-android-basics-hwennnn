@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
         p1_button = findViewById(R.id.button_1);
         p2_button = findViewById(R.id.button_2);
         p3_button = findViewById(R.id.button_3);
+        setNewMole();
+        displayMarks();
         Log.v(TAG, "Finished Pre-Initialisation!");
 
     }
@@ -31,10 +33,37 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        setNewMole();
-        displayMarks();
-
         Log.v(TAG, "Starting GUI!");
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Log.v(TAG, "Paused GUI!");
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        Log.v(TAG, "Stop!");
+    }
+
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        Log.v(TAG, "Restart!");
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        Log.v(TAG, "Destroy!");
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Log.v(TAG, "Resume!");
     }
 
     public void setNewMole()
