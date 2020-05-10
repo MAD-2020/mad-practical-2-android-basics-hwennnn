@@ -12,20 +12,20 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     private int count = 0;
+    private int last_location = 0;
     private static final String TAG = "Whack-A-Mole";
-    private Button p1_button;
-    private Button p2_button;
-    private Button p3_button;
+    private static final int[] BUTTON_IDS = {R.id.button_1, R.id.button_2, R.id.button_3};
+    Random ran = new Random();
+    TextView msg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        p1_button = findViewById(R.id.button_1);
-        p2_button = findViewById(R.id.button_2);
-        p3_button = findViewById(R.id.button_3);
+
+        msg = findViewById(R.id.message);
         setNewMole();
-        displayMarks();
+        msg.setText(String.valueOf(count));
         Log.v(TAG, "Finished Pre-Initialisation!");
 
     }
@@ -68,25 +68,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void setNewMole()
     {
-        Random ran = new Random();
-        Button[] all = {p1_button,p2_button,p3_button};
-        Button id = all[ran.nextInt(all.length)];
-
-        for (int i = 0; i < all.length; i++) {
-            if (all[i] == id) {
-                id.setText("O");
-            } else {
-                all[i].setText("*");
-            }
-        }
+        int randomLocation = ran.nextInt(3);
+        Button this_btn = findViewById(BUTTON_IDS[randomLocation]);
+        Button last_btn = findViewById(BUTTON_IDS[last_location]);
+        last_btn.setText("O");
+        this_btn.setText("*");
+        last_location = randomLocation;
     }
 
-    public void displayMarks()
-    {
-        String c = String.valueOf(count);
-        TextView msg = findViewById(R.id.message);
-        msg.setText(c);
-    }
 
     public void onClickBtn(View v)
     {
@@ -103,16 +92,20 @@ public class MainActivity extends AppCompatActivity {
 
         Button b = (Button)v;
         String buttonText = b.getText().toString();
-        if (buttonText == "*"){
+        if (buttonText.equals("*")){
             count++;
             Log.v(TAG, "Hit, score added!");
         }else{
-            count--;
-            Log.v(TAG, "Missed, score deducted!");
+            if (count > 0){
+                count--;
+                Log.v(TAG, "Missed, score deducted!");
+            }else{
+                Log.v(TAG, "Missed Hit!");
+            }
         }
 
         setNewMole();
-        displayMarks();
+        msg.setText(String.valueOf(count));
     }
 
 }
